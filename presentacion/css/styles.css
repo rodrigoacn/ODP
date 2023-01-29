@@ -1,0 +1,264 @@
+.paginacion {
+    display: inline-block;
+}
+  
+.btn-paginacion {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    background-color: transparent;
+    border: none;
+}
+  
+.btn-paginacion.activo {
+    background-color: #4CAF50;
+    color: white;
+}
+  
+.btn-paginacion:hover:not(.activo) {
+    background-color: #ddd;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: .5s ease;
+    z-index: -1;
+}
+
+#overlay.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+[id^=modal] {
+    max-height: 80%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-width: 80%;
+    transform: translate(-50%, -50%);
+    color: #4a5666;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    z-index: 3;
+    visibility: hidden;
+    opacity: 0;
+    transition: .5s ease;
+    overflow-y: scroll;
+}
+
+[id^=modal].active {
+    visibility: visible;
+    opacity: 1;
+}
+
+body {
+    background-color: white;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 4fr;
+    grid-template-areas:
+    "area1 area2";
+}
+
+#navegacion {
+    grid-area: area1;
+}
+
+#contenido {
+    grid-area: area2;
+}
+
+#modales {
+    grid-area: area1 / area2;
+}
+
+.navegacion {
+    width: 16%;
+    height: 4%;
+    font-size: 3vw;
+    background-color: red;
+    color: white;
+}
+
+.modal {
+    width: 40%;
+    height: 4%;
+    font-size: 3vw;
+    background-color: red;
+    color: white;
+}
+
+textarea {
+    width: 40%;
+    height: 30%;
+    font-size: 3vw;
+    background-color: white;
+    color: red;
+    border: 1px solid red;
+    overflow-y: scroll;
+}
+
+.aceptar {
+    width: 15%;
+    height: 4%;
+    font-size: 3vw;
+    background-color: red;
+    color: white;
+    border: 2px solid red;
+}
+
+.cancelar {
+    width: 15%;
+    height: 4%;
+    font-size: 3vw;
+    background-color: white;
+    color: red;
+    border: 2px solid red;
+}
+
+.buscador {
+    position: relative;
+}
+
+ul {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid red;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    top: 70px;
+    left: 58px;
+}
+
+li {
+    border: 1px solid red;
+    background-color: white;
+    padding: 0;
+    margin: 0;
+}
+
+li:hover {
+    background-color: red;
+}
+
+h1, h2, caption{
+    color: red;
+    font-size: 5vw;
+}
+
+caption {
+    text-align: center;
+}
+
+table {
+    width: 80%;
+    background-color: white;
+}
+
+th, td {
+    height: 10%;
+    border: 1px solid red;
+    color: red;
+}
+
+td {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+tr:hover {
+    background-color: red;
+}
+
+tr:hover th td {
+    color: white;
+}
+
+.filas-1 tr td {
+    width: 76%;
+}
+
+.filas-2 tr td {
+    width: 38%;
+}
+
+.filas-3 tr td {
+    width: 25%;
+}
+
+td *, th * {
+    width: 100%;
+    height: 100%;
+    font-size: 3vw;
+}
+
+p {
+    color: red;
+    font-size: 3vw;
+}
+
+#contenedor-secundario, .contenedor-primario {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-items: center;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+#contenedor-secundario::-webkit-scrollbar, .contenedor-primario::-webkit-scrollbar, [id^=modal]::-webkit-scrollbar, textarea::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 10px;
+}
+
+#contenedor-secundario::-webkit-scrollbar-thumb, .contenedor-primario::-webkit-scrollbar-thumb, [id^=modal]::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb {
+    background: red; 
+    border-radius: 10px;
+}
+
+#contenedor-secundario * {
+    width: 20%;
+}
+
+.contenedor-secundario {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+#seleccionar-tarea, [id^=lista] {
+    display: none;
+    position: absolute;
+    background: #FAFAFA;
+    border: 2px solid #C9C9C9;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    top: 70px;
+    left: 58px;
+}
+
+.auto-completar {
+    color: grey;
+}
+
+.contenedor-validacion {
+    position: relative;
+}
+
+.contenedor-validacion > .validacion {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+}
