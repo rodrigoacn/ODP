@@ -103,7 +103,7 @@ switch ($bandera){
 ?>
 		<tr>
 			<td><input type="text" class="txt-nombre-ticket"<?= $obj->getTituloTicket(); ?>></td>
-			<td><input type="hidden" class="hdn-descripcion-ticket-editar" value="<?= $obj->getDescripcionTicket(); ?>"><input type="button" class="btn-descripcion-ticket" value="Ver Descripción"></td>
+			<td><textarea class="hdn-descripcion-ticket"><?= $obj->getDescripcionTicket(); ?></textarea><input type="button" class="btn-descripcion-ticket" value="Ver Descripción"></td>
 			<td><input type="number" class="nbr-sprint-editar" value="<?= $obj->getSprintTicket(); ?>"></td>
 			<td><select class="slc-estado-editar">
 <?php
@@ -204,7 +204,7 @@ switch ($bandera){
 			<h2><?= $ticket_pendiente["titulo_ticket"]; ?></h2>
 			<p>Depende de: <?= $ticket_pendiente["ticket_dependiente"]; ?></p>
 			<p>F. Inicio: <?= $ticket_pendiente["fecha_inicio_ticket"]; ?></p>
-			<input type="hidden" class="hdn-descripcion-ticket" value="<?= $ticket_pendiente["descripcion_ticket"]; ?>">
+			<textarea class="hdn-descripcion-ticket"><?= $ticket_pendiente["descripcion_ticket"]; ?></textarea>
 			<input type="button" class="btn-descripcion-ticket" value="Ver Descripción">
 			<p>Puntos: <?= $ticket_pendiente["puntos_ticket"] ?></p>
 		</div>
@@ -223,7 +223,7 @@ switch ($bandera){
 			<h2><?= $ticket_ejecutando["titulo_ticket"]; ?></h2>
 			<p>Depende de: <?= $ticket_ejecutando["ticket_dependiente"]; ?></p>
 			<p>F. Inicio: <?= $ticket_ejecutando["fecha_inicio_ticket"]; ?></p>
-			<input type="hidden" class="hdn-descripcion-ticket" value="<?= $ticket_ejecutando["descripcion_ticket"]; ?>">
+			<textarea class="hdn-descripcion-ticket"><?= $ticket_ejecutando["descripcion_ticket"]; ?></textarea>
 			<input type="button" class="btn-descripcion-ticket" value="Ver Descripción">
 			<p>Puntos: <?= $ticket_ejecutando["puntos_ticket"] ?></p>
 		</div>
@@ -261,7 +261,7 @@ switch ($bandera){
 			<h2><?= $ticket_terminado["titulo_ticket"]; ?></h2>
 			<p>Depende de: <?= $ticket_terminado["ticket_dependiente"]; ?></p>
 			<p>F. Inicio: <?= $ticket_terminado["fecha_inicio_ticket"]; ?></p>
-			<input type="hidden" class="hdn-descripcion-ticket" value="<?= $ticket_terminado["descripcion_ticket"]; ?>">
+			<textarea class="hdn-descripcion-ticket"><?= $ticket_terminado["descripcion_ticket"]; ?></textarea>
 			<input type="button" class="btn-descripcion-ticket" value="Ver Descripción">
 			<p>Puntos: <?= $ticket_terminado["puntos_ticket"] ?></p>
 		</div>
