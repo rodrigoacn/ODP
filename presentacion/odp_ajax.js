@@ -1,7 +1,7 @@
 function ObtenerModales(){
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 1
         }),
@@ -20,7 +20,7 @@ function IrCrearTickets(id_proyecto, max_sprint){
     var max_id;
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 8,
             id_proyecto: id_proyecto
@@ -37,7 +37,7 @@ function IrCrearTickets(id_proyecto, max_sprint){
 
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 2,
             id_proyecto: id_proyecto,
@@ -59,7 +59,7 @@ function IrCrearTickets(id_proyecto, max_sprint){
 function ObtenerProyectos(){
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 3
         }),
@@ -77,7 +77,7 @@ function ObtenerProyectos(){
 function ObtenerTickets(id_proyecto, nombre_proyecto){
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 4,
             id_proyecto: id_proyecto,
@@ -97,7 +97,7 @@ function ObtenerTickets(id_proyecto, nombre_proyecto){
 function CrearProyecto(nombre_proyecto){
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 5,
             nombre_proyecto: nombre_proyecto
@@ -117,7 +117,7 @@ function CrearProyecto(nombre_proyecto){
 function CrearTickets(array_tickets, id_proyecto, sprint){
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 6,
             array_tickets: array_tickets,
@@ -139,7 +139,7 @@ function CrearTickets(array_tickets, id_proyecto, sprint){
 function VerSprint(id_proyecto){
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 7,
             id_proyecto: id_proyecto
@@ -158,7 +158,7 @@ function VerSprint(id_proyecto){
 function GuardarProyecto(id_proyecto, nombre_proyecto){
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 9,
             id_proyecto: id_proyecto,
@@ -179,7 +179,7 @@ function GuardarProyecto(id_proyecto, nombre_proyecto){
 function EliminarProyecto(id_proyecto){
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 10,
             id_proyecto: id_proyecto
@@ -199,7 +199,7 @@ function EliminarProyecto(id_proyecto){
 function EditarTicket(id_ticket, titulo_ticket, descripcion_ticket, sprint_ticket, estado_ticket, puntos_ticket, finicio_ticket, ftermino_ticket){
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 11,
             id_ticket: id_ticket,
@@ -226,7 +226,7 @@ function EditarTicket(id_ticket, titulo_ticket, descripcion_ticket, sprint_ticke
 function EliminarTicket(id_ticket){
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 12,
             id_ticket: id_ticket
@@ -246,7 +246,7 @@ function EliminarTicket(id_ticket){
 function ObtenerPromedios(id_proyecto, rango_tiempo){
     $.ajax({
         type: "POST",
-        url : "aj/bcea_aj.php",
+        url : "aj/odp_aj.php",
         data:({
             bandera: 13,
             id_proyecto: id_proyecto,
@@ -264,6 +264,30 @@ function ObtenerPromedios(id_proyecto, rango_tiempo){
             });
             $("body").append("<canvas id='grafico' height='"+$("#contenido").height()+"' width='"+$("#contenido").width()+"'></canvas");
             CrearGrafico(puntos, rango_tiempo);
+        }
+    });
+}
+
+function CambiarEstado(id_ticket, id_ticket_dependiente, estado){
+    $.ajax({
+        type: "POST",
+        url: "aj/odp_aj.php",
+        data: ({
+            bandera: 14,
+            id_ticket: id_ticket,
+            id_ticket_dependiente: id_ticket_dependiente,
+            estado: estado
+        }),
+        dataType: "html",
+        beforeSend: function(){
+        },
+        complete: function(){
+        },
+        success: function(resultado){
+            if(parseInt(resultado) === 0){
+                $("#titulo-alerta").html("Este ticket depende de otro para cambiar de estado");
+                $("#modal-alerta").show();
+            }
         }
     });
 }

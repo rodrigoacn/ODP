@@ -26,7 +26,7 @@
 }());
 
 $(".cancelar").click(function(){
-    $("[id^=modal]").hide();
+    $(".ventana-modal").hide();
     if($("#overlay").hasClass("active")){
         $("#overlay").removeClass("active");
     }
@@ -118,16 +118,19 @@ function allowDrop(e) {
 function drag(e) {
     var id = e.target.id;
     var id_ticket = $("#"+id).find("hdn-id-ticket").val();
-    e.dataTransfer.setData("id", );
+    var id_ticket_dependiente = $("#"+id).find("hdn-id-ticket-dependiente").val();
+    e.dataTransfer.setData("id", id);
     e.dataTransfer.setData("id_ticket", id_ticket);
+    e.dataTransfer.setData("id_ticket_dependiente", id_ticket_dependiente);
 }
   
 function drop(e, estado) {
     e.preventDefault();
     var id = e.dataTransfer.getData("id").toString();
     var id_ticket = e.dataTransfer.getData("id_ticket");
+    var id_ticket_dependiente = e.dataTransfer.getData("id_ticket_dependiente");
     e.target.appendChild(document.getElementById(id));
-    CambiarEstado(id_ticket, estado);
+    CambiarEstado(id_ticket, id_ticket_dependiente, estado);
 }
 
 if($(".carta").lenght){
@@ -140,7 +143,43 @@ if($(".carta").lenght){
     $("#tickets_pendientes").on("drop", function(e){
         e.preventDefault();
         e.stopPropagation();
-        drop(e);
+        drop(e, "pendiente");
+    });
+    
+    $("#tickets_pendientes").on("dropover", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        allowDrop(e);
+    });
+
+    $("#tickets_pendientes").on("drop", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        drop(e, "pendiente");
+    });
+    
+    $("#tickets_pendientes").on("dropover", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        allowDrop(e);
+    });
+
+    $("#tickets_pendientes").on("drop", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        drop(e, "pendiente");
+    });
+    
+    $("#tickets_pendientes").on("dropover", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        allowDrop(e);
+    });
+
+    $("#tickets_pendientes").on("drop", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        drop(e, "pendiente");
     });
     
     $("#tickets_pendientes").on("dropover", function(e){

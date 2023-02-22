@@ -200,7 +200,8 @@ switch ($bandera){
 
 ?>
 		<div id="<?= $i; ?>" class="carta">
-			<input type="hidden" class="hdn-id-ticket" value="<?= $ticket_pendiente["id_ticket"] ?>">
+			<input type="hidden" class="hdn-id-ticket" value="<?= $ticket_pendiente["id_ticket"]; ?>">
+			<input type="hidden" class="hdn-id-ticket-dependiente" value="<?= $ticket_pendiente["ticket_¨dependiente"]; ?>">
 			<h2><?= $ticket_pendiente["titulo_ticket"]; ?></h2>
 			<p>Depende de: <?= $ticket_pendiente["ticket_dependiente"]; ?></p>
 			<p>F. Inicio: <?= $ticket_pendiente["fecha_inicio_ticket"]; ?></p>
@@ -219,7 +220,8 @@ switch ($bandera){
 
 ?>
 		<div id="<?= $i; ?>" class="carta">
-			<input type="hidden" class="hdn-id-ticket" value="<?= $ticket_ejecutando["id_ticket"] ?>">
+			<input type="hidden" class="hdn-id-ticket" value="<?= $ticket_ejecutando["id_ticket"]; ?>">
+			<input type="hidden" class="hdn-id-ticket-dependiente" value="<?= $ticket_ejecutando["ticket_¨dependiente"]; ?>">
 			<h2><?= $ticket_ejecutando["titulo_ticket"]; ?></h2>
 			<p>Depende de: <?= $ticket_ejecutando["ticket_dependiente"]; ?></p>
 			<p>F. Inicio: <?= $ticket_ejecutando["fecha_inicio_ticket"]; ?></p>
@@ -238,7 +240,8 @@ switch ($bandera){
 
 ?>
 		<div id="<?= $i; ?>" class="carta">
-			<input type="hidden" class="hdn-id-ticket" value="<?= $ticket_probandose["id_ticket"] ?>">
+			<input type="hidden" class="hdn-id-ticket" value="<?= $ticket_probandose["id_ticket"]; ?>">
+			<input type="hidden" class="hdn-id-ticket-dependiente" value="<?= $ticket_probandose["ticket_¨dependiente"]; ?>">
 			<h2><?= $ticket_probandose["titulo_ticket"]; ?></h2>
 			<p>Depende de: <?= $ticket_probandose["ticket_dependiente"]; ?></p>
 			<p>F. Inicio: <?= $ticket_probandose["fecha_inicio_ticket"]; ?></p>
@@ -257,7 +260,8 @@ switch ($bandera){
 
 ?>
 		<div id="<?= $i; ?>" class="carta">
-			<input type="hidden" class="hdn-id-ticket" value="<?= $ticket_terminado["id_ticket"] ?>">
+			<input type="hidden" class="hdn-id-ticket" value="<?= $ticket_terminado["id_ticket"]; ?>">
+			<input type="hidden" class="hdn-id-ticket-dependiente" value="<?= $ticket_terminado["ticket_¨dependiente"]; ?>">
 			<h2><?= $ticket_terminado["titulo_ticket"]; ?></h2>
 			<p>Depende de: <?= $ticket_terminado["ticket_dependiente"]; ?></p>
 			<p>F. Inicio: <?= $ticket_terminado["fecha_inicio_ticket"]; ?></p>
@@ -315,6 +319,15 @@ switch ($bandera){
 		for($i = 0; $i < $obj->getFilas(); $i++){
 			$obj->getSet_ODP($i);
 			echo $obj->getPromedioPuntos();
+		}
+	break;
+
+	case 14:
+		if($_POST["id_ticket_dependiente"] != -1){
+			echo 0;
+		} else{
+			$obj
+			echo 1;
 		}
 	break;
 }
