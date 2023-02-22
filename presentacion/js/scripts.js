@@ -1,8 +1,8 @@
 (function() {
     obtenerDimensionPantalla = function () {
-        return .val(){
+        return {
             ancho_pantalla: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
-            alto_pantalla: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),
+            alto_pantalla: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
         };
     };
 
@@ -10,61 +10,14 @@
         var dimensiones = obtenerDimensionPantalla();
         $("body").css("width", dimensiones.ancho_pantalla);
         $("body").css("height", dimensiones.alto_pantalla);
-    };
-
-    getPercentageOfWindow = function() {
-        return {
-            x1: 0.5,
-            y1: 0.5,
-            x2: 0.5,
-            y3: 0.5,
-            x3: 1,
-            y3: 0.5,
-        };
-    };
-
-    getCanvasContext = function() {
-        return {
-            "grafico1": $("#grafico1")[0].getContext("2d"),
-            "grafico2": $("#grafico2")[0].getContext("2d"),
-            "grafico3": $("#grafico3")[0].getContext("2d")
-        };
-    };
-
-    getViewportSize = function() {
-        return {
-            height: $("#graficos").height,
-            width: $("#graficos").width
-        };
-    };
-
-    updateSizes = function() {
-        var viewportSize = getViewportSize();
-        var percentage = getPercentageOfWindow();
-        var ctx = getCanvasContext();
-        if($("#seccion-actual").val() === "principal"){
-            ctx.grafico1.canvas.height = 0;
-            ctx.grafico1.canvas.width = 0;
-            ctx.grafico2.canvas.height = 0;
-            ctx.grafico2.canvas.width = 0;
-            ctx.grafico3.canvas.height = 0;
-            ctx.grafico3.canvas.width = 0;
-            return;
-        } else if($("#seccion-actual").val() !== "tareas"){
-            ctx.grafico3.canvas.height = 0;
-            ctx.grafico3.canvas.width = 0;
-        } else{
-            ctx.grafico3.canvas.height = viewportSize.height * percentage.y3;
-            ctx.grafico3.canvas.width = viewportSize.width * percentage.x3;
+        if($("#grafico").lenght){
+            var ctx = $("#grafico")[0].getContext("2d");
+            ctx.canvas.width = dimensiones.ancho_pantalla;
+            ctx.canvas.height = dimensiones.alto_pantalla;
         }
-        ctx.grafico1.canvas.height = viewportSize.height * percentage.y1;
-        ctx.grafico1.canvas.width = viewportSize.width * percentage.x1;
-        ctx.grafico2.canvas.height = viewportSize.height * percentage.y2;
-        ctx.grafico2.canvas.width = viewportSize.width * percentage.x2;
     };
 
     $(window).on('resize', function() {
-        updateSizes();
         actualizarDimensionPantalla();
     });
 
