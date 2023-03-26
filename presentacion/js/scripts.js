@@ -49,16 +49,15 @@ $("#btn-crear-proyecto").click(function(){
 });
 
 $("#btn-crear-tickets").click(function(){
-    var array_tickets = [];
-    var i = 0;
+    var tickets = {};
     $(".ticket").each(function(){
-        i++;
-        array_tickets["id"] = $("#tks-id").val() + $(this).index();
-        array_tickets["id_dependiente"] = $(this).find(".hdn-ticket-dependiente").val();
-        array_tickets["titulo"] = $(this).find(".nombre_ticket").val();
-        array_tickets["descripcion"] = $(this).find(".descripcion_ticket");
-        array_tickets["puntos"] = $(this).find(".puntos_ticket");
+        tickets["llave"] = $(this).find(".hdn-llave").val();
+        tickets["id_dependiente"] = $(this).find(".hdn-ticket-dependiente").val();
+        tickets["titulo"] = $(this).find(".nombre_ticket").val();
+        tickets["descripcion"] = $(this).find(".descripcion_ticket");
+        tickets["puntos"] = $(this).find(".puntos_ticket");
     });
+    CrearTickets($("#tks-id-proyecto").val(), tickets);
 });
 
 $(".ver-sprint").click(function(){
@@ -190,21 +189,24 @@ if($(".carta").lenght){
 }
 
 $(".btn-ticket-dependiente").click(function(){
+    var llave = ObtenerLlave();
     $("#tickets").append(""
     +"<div class='ticket'>"
-    +"  <input class='modal hdn-ticket-dependiente' type='hidden' value='"+(parseInt($("#tks-id").val())+$(this).index())+"'>"
+    +"  <input class='modal hdn-llave' type='hidden' value='"+llave+"'>"
+    +"  <input class='modal hdn-ticket-dependiente' type='hidden' value='"+$(this).parent().prev(".independiente").find(".hdn-llave").first().val()+"'>"
     +"	<input class='modal nombre_ticket' type='text' placeholder='Nombre del ticket'>"
     +"  <textarea class='modal descripcion_ticket' placeholder='Descripción del Ticket'></textarea>"
     +"  <input type='number' class='modal puntos_ticket' value='1'>"
     +"  <input type='button' class='modal btn-ticket-dependiente' value='Ticket Dependiente'>"
     +"</div>"
-    );
-    
+    );  
 });
 
 $("#btn-nuevo-ticket").click(function(){
+    var llave = ObtenerLlave();
     $("#tickets").append(""
-    +"<div class='ticket'>"
+    +"<div class='ticket independiente'>"
+    +"  <input class='modal hdn-llave' type='hidden' value='"+llave+"'>"
     +"  <input class='modal hdn-ticket-dependiente' type='hidden' value='-1'>"
     +"  <input class='modal nombre_ticket' type='text' placeholder='Nombre del ticket'>"
     +"  <textarea class='modal descripcion_ticket' placeholder='Descripción del Ticket'></textarea>"

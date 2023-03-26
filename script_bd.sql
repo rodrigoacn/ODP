@@ -5,7 +5,7 @@ CREATE TABLE proyecto(
 ) ENGINE=InnoDB;
 
 CREATE TABLE ticket(
-    id BIGINT NOT NULL,
+    id BIGINT NOT NULL AUTO_INCREMENT,
     id_proyecto BIGINT NOT NULL,
     id_ticket BIGINT,
     titulo VARCHAR(100) NOT NULL,

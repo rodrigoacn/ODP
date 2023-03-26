@@ -61,6 +61,22 @@ class odp_sql {
 	public function ObtenerPromedioMes(){
 		$this->query="SELECT MONTH(fecha_termino) AS mes, AVG(puntos) AS promedio_puntos FROM ticket WHERE id_proyecto = :v_id_proyecto AND fecha_termino BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 210 DAY) AND CURRENT_DATE() GROUP BY mes";
 	}
+
+	public function VerificarEstadoTicket(){
+		$this->query="SELECT estado AS estado_ticket FROM ticket WHERE id = :v_id_ticket";
+	}
+
+	public function CambiarEstadoTicket(){
+		$this->query="UPDATE ticket SET estado = :v_estado WHERE id = :v_id_ticket";
+	}
+
+	public function ObtenerMaxIdTicket(){
+		$this->query="SELECT MAX(id) + 1 FROM ticket WHERE id_proyecto = :v_id_proyecto";
+	}
+
+	public function CrearTicket(){
+		$this->query="INSERT INTO ticket (id_proyecto, id_ticket, titulo, descripcion, sprint, estado, puntos) VALUES (:v_id_proyecto, :v_id_dependiente, :v_titulo, :v_descripcion, :v_sprint, :v_estado, :v_puntos)";
+	}
 }
 ?>
 		

@@ -17,6 +17,7 @@ class odp_neg {
 	private $fecha_termino_ticket;
 	private $max_id_ticket;
 	private $promedio_puntos;
+	private $estado_ticket;
 	
 	public function odp_neg($p_usercon){ 
 		$this->sql = new odp_sql();
@@ -56,14 +57,13 @@ class odp_neg {
 		//Envia parametros a ejecutar
 		$this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id", $p_id);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_);
-		$this->ejecuta->bindParam(":v_", $p_id_proyecto);
+		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
 		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
-		$this->ejecuta->bindParam(":v_titulo", $p_titulo);
-		$this->ejecuta->bindParam(":v_descripcion", $p_descripcion);
+		$this->ejecuta->bindParam(":v_titulo", strtoupper($p_titulo));
+		$this->ejecuta->bindParam(":v_descripcion", strtoupper($p_descripcion));
 		$this->ejecuta->bindParam(":v_puntos", $p_puntos);
 		$this->ejecuta->bindParam(":v_sprint", $p_sprint);
-		$this->ejecuta->bindParam(":v_estado", $p_estado);
+		$this->ejecuta->bindParam(":v_estado", strtoupper($p_estado));
 		$this->ejecuta->execute();
 		//return $this->ejecuta->resultado;
 	}
@@ -102,7 +102,7 @@ class odp_neg {
 		//Envia parametros a ejecutar
 		$this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->bindParam(":v_nombre_proyecto", $p_nombre_proyecto);
+		$this->ejecuta->bindParam(":v_nombre_proyecto", strtoupper($p_nombre_proyecto));
 		$this->ejecuta->execute();
 		//return $this->ejecuta->resultado;
 	}
@@ -139,10 +139,10 @@ class odp_neg {
 		//Envia parametros a ejecutar
 		$this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
-		$this->ejecuta->bindParam(":v_titulo_ticket", $p_titulo_ticket);
-		$this->ejecuta->bindParam(":v_descripcion_ticket", $p_descripcion_ticket);
+		$this->ejecuta->bindParam(":v_titulo_ticket", strtoupper($p_titulo_ticket));
+		$this->ejecuta->bindParam(":v_descripcion_ticket", strtoupper($p_descripcion_ticket));
 		$this->ejecuta->bindParam(":v_sprint_ticket", $p_sprint_ticket);
-		$this->ejecuta->bindParam(":v_estado_ticket", $p_estado_ticket);
+		$this->ejecuta->bindParam(":v_estado_ticket", strtoupper($p_estado_ticket));
 		$this->ejecuta->bindParam(":v_puntos_ticket", $p_puntos_ticket);
 		$this->ejecuta->bindParam(":v_finicio_ticket", $p_finicio_ticket);
 		$this->ejecuta->bindParam(":v_ftermino_ticket", $p_ftermino_ticket);
@@ -213,6 +213,55 @@ class odp_neg {
 		//return $this->ejecuta->resultado;
 	}
 
+	public function VerificarEstadoTicket($p_id_ticket){
+		$this->sql->VerificarParaleloAlumno();
+		$consulta=$this->sql->query;
+		//Envia parametros a ejecutar
+		$this->ejecuta->prepare($consulta);
+		$this->ejecuta->bindParam(":v_id_ticket", strtoupper($p_id_ticket));
+		$this->ejecuta->execute();
+		$this->vector_resultado=$this->ejecuta->fetchAll();
+		//return $this->ejecuta->resultado;
+	}
+
+	public function CambiarEstadoTicket($p_id_ticket, $p_estado){
+		$this->sql->CambiarEstadoTicket();
+		$consulta=$this->sql->query;
+		//Envia parametros a ejecutar
+		$this->ejecuta->prepare($consulta);
+		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
+		$this->ejecuta->bindParam(":v_estado", strtoupper($p_estado));
+		$this->ejecuta->execute();
+		//return $this->ejecuta->resultado;
+	}
+
+	public function ObtenerMaxIdTicket($p_id_proyecto){
+		$this->sql->ObtenerMaxIdTicket();
+		$consulta=$this->sql->query;
+		//Envia parametros a ejecutar
+		$this->ejecuta->prepare($consulta);
+		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
+		$this->ejecuta->execute();
+		$this->vector_resultado=$this->ejecuta->fetchAll();
+		//return $this->ejecuta->resultado;
+	}
+
+	public function CrearTicket($p_id_proyecto, $p_id_dependiente, $p_titulo, $p_descripcion, $p_sprint, $p_estado, $p_puntos){
+		$this->sql->CrearTicket();
+		$consulta=$this->sql->query;
+		//Envia parametros a ejecutar
+		$this->ejecuta->prepare($consulta);
+		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
+		$this->ejecuta->bindParam(":v_id_dependiente", strtoupper($p_id_dependiente));
+		$this->ejecuta->bindParam(":v_titulo", strtoupper($p_titulo));
+		$this->ejecuta->bindParam(":v_descripcion", strtoupper($p_descripcion));
+		$this->ejecuta->bindParam(":v_sprint", $p_sprint);
+		$this->ejecuta->bindParam(":v_estado", strtoupper($p_estado));
+		$this->ejecuta->bindParam(":v_puntos", $p_puntos);
+		$this->ejecuta->execute();
+		//return $this->ejecuta->resultado;
+	}
+
 	public function getSet_ODP($filas=0){
 		if($this->getFilas()>0){
 			$this->id_proyecto = $this->vector_resultado[$filas]["id_proyecto"];
@@ -227,6 +276,7 @@ class odp_neg {
 			$this->fecha_termino_ticket = $this->vector_resultado[$filas]["fecha_termino_ticket"];
 			$this->max_id_ticket = $this->vector_resultado[$filas]["max_id_ticket"];
 			$this->promedio_puntos = $this->vector_resultado[$filas]["promedio_puntos"];
+			$this->estado_ticket = $this->vector_resultado[$filas]["estado_ticket"];
 		}
 	}
 
@@ -240,7 +290,7 @@ class odp_neg {
 	}
 
 	public function getNombreProyecto(){
-		return $this->nombre_proyecto;
+		return ucwords(strtolower($this->nombre_proyecto));
 	}
 
 	public function getMaxSprintTicket(){
@@ -256,11 +306,11 @@ class odp_neg {
 	}
 
 	public function getTituloTicket(){
-		return $this->titulo_ticket;
+		return ucwords(strtolower($this->titulo_ticket));
 	}
 
 	public function getDescripcionTicket(){
-		return $this->descripcion_ticket;
+		return ucfirst(strtolower($this->descripcion_ticket));
 	}
 
 	public function getPuntosTicket(){
@@ -281,6 +331,10 @@ class odp_neg {
 
 	public function getPromedioPuntos(){
 		return $this->promedio_puntos;
+	}
+
+	public function getEstadoTicket(){
+		return ucwords(strtolower($this->estado_ticket));
 	}
 }	
 ?>

@@ -17,32 +17,13 @@ function ObtenerModales(){
 }
 
 function IrCrearTickets(id_proyecto, max_sprint){
-    var max_id;
-    $.ajax({
-        type: "POST",
-        url : "aj/odp_aj.php",
-        data:({
-            bandera: 8,
-            id_proyecto: id_proyecto
-        }),
-        dataType: "html",
-        beforeSend: function(){
-        },
-        complete: function(){
-        },
-        success: function(resultado){
-            max_id = resultado;
-        }
-    });
-
     $.ajax({
         type: "POST",
         url : "aj/odp_aj.php",
         data:({
             bandera: 2,
             id_proyecto: id_proyecto,
-            max_sprint: max_sprint,
-            max_id: max_id
+            max_sprint: max_sprint
         }),
         dataType: "html",
         beforeSend: function(){
@@ -109,28 +90,6 @@ function CrearProyecto(nombre_proyecto){
         },
         success: function(resultado){
             $("#titulo-alerta").html("Proyecto creado correctamente");
-            $("#modal-alerta").show();
-        }
-    });
-}
-
-function CrearTickets(array_tickets, id_proyecto, sprint){
-    $.ajax({
-        type: "POST",
-        url : "aj/odp_aj.php",
-        data:({
-            bandera: 6,
-            array_tickets: array_tickets,
-            id_proyecto: id_proyecto,
-            sprint: sprint
-        }),
-        dataType: "html",
-        beforeSend: function(){
-        },
-        complete: function(){
-        },
-        success: function(resultado){
-            $("#titulo-alerta").html("Tickets creados correctamente");
             $("#modal-alerta").show();
         }
     });
@@ -286,6 +245,47 @@ function CambiarEstado(id_ticket, id_ticket_dependiente, estado){
         success: function(resultado){
             if(parseInt(resultado) === 0){
                 $("#titulo-alerta").html("Este ticket depende de otro para cambiar de estado");
+                $("#modal-alerta").show();
+            }
+        }
+    });
+}
+
+function ObtenerLlave(){
+    $.ajax({
+        type: "POST",
+        url: "aj/odp_aj.php",
+        data: ({
+            bandera: 8
+        }),
+        dataType: "html",
+        beforeSend: function(){
+        },
+        complete: function(){
+        },
+        success: function(resultado){
+            return resultado;
+        }
+    });
+}
+
+function CrearTickets(id_proyecto, tickets){
+    $.ajax({
+        type: "POST",
+        url: "aj/odp_aj.php",
+        data: ({
+            bandera: 15,
+            id_proyecto: id_proyecto,
+            tickets: JSON.stringify(tickets)
+        }),
+        dataType: "html",
+        beforeSend: function(){
+        },
+        complete: function(){
+        },
+        success: function(resultado){
+            if(parseInt(resultado) === 0){
+                $("#titulo-alerta").html("Tickets guardados");
                 $("#modal-alerta").show();
             }
         }

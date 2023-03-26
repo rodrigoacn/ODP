@@ -7,7 +7,13 @@ include_once ("../../negocios/odp_neg.php");
 $USERCON = DB::connect();
 $obj = new odp_neg($USERCON);
 $obj1 = new odp_neg($USERCON);
-
+$secret_key = random_bytes(32);
+$secret_iv = random_bytes(16);
+$secret_key = hash('sha256', $secret_key);    
+$secret_iv = substr(hash('sha256', $secret_iv), 0, 16);
+//encriptar $output = openssl_encrypt($id, "AES-256-CBC", $secret_key, 0, $secret_iv);
+//encriptar $e_id = base64_encode($output);
+//desencriptar $id = openssl_decrypt(base64_decode($_POST["v1"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]);
 
 switch ($bandera){
 	case 1:
@@ -26,11 +32,10 @@ switch ($bandera){
 	case 2:
 ?>
 <div id="modal-crear-tickets" class="ventana-modal contenedor-primario">
-	<input type="hidden" id="tks-id-proyecto" value="<?= $_POST["id_proyecto"] ?>">
-	<input type="hidden" id="tks-sprint" value="<?= $_POST["max_sprint"] ?>">
-	<input type="hidden" id="tks-id" value="<?= $_POST["max_id"] ?>">
+	<input type="hidden" id="tks-id-proyecto" value="<?= openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]); ?>">
 	<h2>Crear Tickets</h2>
-	<div class="ticket">
+	<div class="ticket independiente">
+		<input class="modal hdn-llave" type="hidden" value="<?= $_POST["llave"] ?>">
 		<input class="modal hdn-ticket-dependiente" type="hidden" value="-1">
 		<input class="modal nombre_ticket" type="text" placeholder="Nombre del ticket">
 		<textarea class="modal descripcion_ticket" placeholder="Descripción del Ticket"></textarea>
@@ -63,14 +68,18 @@ switch ($bandera){
 <?php
 		for($i = 0; $i < $obj->getFilas(); $i++){
 			$obj->getSet_ODP($i);
+			$output = openssl_encrypt($obj->getIdProyecto(), "AES-256-CBC", $secret_key, 0, $secret_iv);
+			$e_id_proyecto = base64_encode($output);
+			$output = openssl_encrypt($obj->getNombreProyecto(), "AES-256-CBC", $secret_key, 0, $secret_iv);
+			$e_nombre_proyecto = base64_encode($output);
 ?>
 		<tr>
-			<td><input type="text" class="txt-nombre-proyecto" value="<?= $obj->getNombreProyecto(); ?>"></td>
-			<td><input type="button" class="ver-sprint" data-id="<?= $obj->getIdProyecto(); ?>" value="Ver Sprint"></td>
-			<td><input type="button" class="ver-tickets" data-id="<?= $obj->getIdProyecto(); ?>" data-nombre="<?= $obj->getNombreProyecto(); ?>" value="Ver Tickets"></td>
-			<td><input type="number" class="crear-tickets" data-id="<?= $obj->getIdProyecto(); ?>" value="<?= $obj->getMaxSprintTicket() == null ? 1 : $obj->getMaxSprintTicket(); ?>"></td>
-			<td><input type="button" class="guardar-proyecto" data-id="<?= $obj->getIdProyecto(); ?>" value="Guardar"></td>
-			<td><input type="button" class="eliminar-proyecto" data-id="<?= $obj->getIdProyecto(); ?>" value="Eliminar"></td>
+			<td><input type="text" class="txt-nombre-proyecto" value="<?= $e_nombre_proyecto; ?>"></td>
+			<td><input type="button" class="ver-sprint" data-id="<?= $e_id_proyecto; ?>" value="Ver Sprint"></td>
+			<td><input type="button" class="ver-tickets" data-id="<?= $e_id_proyecto; ?>" data-nombre="<?= $obj->getNombreProyecto(); ?>" value="Ver Tickets"></td>
+			<td><input type="number" class="crear-tickets" data-id="<?= $e_id_proyecto; ?>" value="<?= $obj->getMaxSprintTicket() == null ? 1 : $obj->getMaxSprintTicket(); ?>"></td>
+			<td><input type="button" class="guardar-proyecto" data-id="<?= $e_id_proyecto; ?>" value="Guardar"></td>
+			<td><input type="button" class="eliminar-proyecto" data-id="<?= $e_id_proyecto; ?>" value="Eliminar"></td>
 		</tr>
 <?php
 		}
@@ -81,12 +90,12 @@ switch ($bandera){
 	break;
 
 	case 4:
-		$obj->ObtenerTickets($_POST["id_proyecto"]);
+		$obj->ObtenerTickets(openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]));
 ?>
 <input type="button" id="atras" value="Atrás">
 <div class="contenedor-primario">
 	<table>
-		<caption><?= $_POST["nombre_proyecto"]; ?> - Tickets</caption>
+		<caption><?= openssl_decrypt(base64_decode($_POST["nombre_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]); ?> - Tickets</caption>
 		<tr>
 			<th>Nombre</th>
 			<th>Descripcion</th>
@@ -100,6 +109,8 @@ switch ($bandera){
 <?php
 		for($i = 0; $i < $obj->getFilas(); $i++){
 			$obj->getSet_ODP($i);
+			$output = openssl_encrypt($obj->getIdTicket(), "AES-256-CBC", $secret_key, 0, $secret_iv);
+			$e_id_ticket = base64_encode($output);
 ?>
 		<tr>
 			<td><input type="text" class="txt-nombre-ticket"<?= $obj->getTituloTicket(); ?>></td>
@@ -112,19 +123,19 @@ switch ($bandera){
 			$probandose = "";
 			$terminado = "";
 			switch($obj->getEstadoTicket()){
-				case "pendiente":
+				case "Pendiente":
 					$pendiente = " selected";
 				break;
 
-				case "ejecutandose":
+				case "Ejecutandose":
 					$ejecutandose = " selected";
 				break;
 
-				case "probandose":
+				case "Probandose":
 					$probandose = " selected";
 				break;
 
-				case "terminado":
+				case "Terminado":
 					$terminado = " selected";
 				break;
 			}
@@ -137,8 +148,8 @@ switch ($bandera){
 			<td><input type="number" class="nbr-puntos-editar" value="<?= $obj->getPuntosTicket(); ?>"></td>
 			<td><input type="date" class="dte-finicio-editar" value="<?= $obj->getFechaInicioTicket(); ?>"></td>
 			<td><input type="date" class="dte-ftermino-editar" value="<?= $obj->getFechaTerminoTicket(); ?>"></td>
-			<td><input type="button" class="guardar-ticket" data-id="<?= $obj->getIdTicket(); ?>" value="Guardar"></td>
-			<td><input type="button" class="eliminar-ticket" data-id-proyecto="<?= $_POST["id_proyecto"]; ?>" data-id="<?= $obj->getIdTicket(); ?>" value="Eliminar"></td>
+			<td><input type="button" class="guardar-ticket" data-id="<?= $e_id_ticket; ?>" value="Guardar"></td>
+			<td><input type="button" class="eliminar-ticket" data-id-proyecto="<?= $_POST["id_proyecto"]; ?>" data-id="<?= $e_id_ticket; ?>" value="Eliminar"></td>
 		</tr>
 <?php
 		}
@@ -152,40 +163,36 @@ switch ($bandera){
 		$obj->CrearProyecto($_POST["nombre_proyecto"]);
 	break;
 
-	case 6:
-		$tickets = json_decode($_POST["array_tickets"], true);
-
-		foreach($tickets as $ticket){
-			CrearTicket($ticket["id"], $_POST["id_proyecto"], $ticket["id_dependiente"], $ticket["titulo"], $ticket["descripcion"], $ticket["puntos"], $_POST["sprint"], "pendiente");
-		}
-	break;
-
 	case 7:
-		$tickets = obj->ObtenerUltimoSprint($_POST["id_proyecto"]);
+		$tickets = $obj->ObtenerUltimoSprint(openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]));
 		$tickets_pendientes = array();
 		$tickets_ejecutandose = array();
 		$tickets_probandose = array();
 		$tickets_terminados = array();
 		for($i = 0; $i < $obj->getFilas(); $i++){
 			$obj->getSet_ODP($i);
-			$ticket = array("id_ticket" => $obj->getIdTicket(), "ticket_dependiente" => $obj->getTicketDependiente(), "titulo_ticket" => $obj->getTituloTicket(), "descripcion_ticket" => $obj->getDescripcionTicket(),
+			$output = openssl_encrypt($obj->getIdTicket(), "AES-256-CBC", $secret_key, 0, $secret_iv);
+			$e_id_ticket = base64_encode($output);
+			$output = openssl_encrypt($obj->getTicketDependiente(), "AES-256-CBC", $secret_key, 0, $secret_iv);
+			$e_id_dependiente = base64_encode($output);
+			$ticket = array("id_ticket" => $e_id_ticket, "ticket_dependiente" => $e_id_dependiente, "titulo_ticket" => $obj->getTituloTicket(), "descripcion_ticket" => $obj->getDescripcionTicket(),
 			"puntos_ticket" => 
 			$obj->getPuntosTicket(),
 			"fecha_inicio_ticket" => $obj->getFechaInicioTicket(), "fecha_termino_ticket" => $obj->getFechaTerminoTicket());
 			switch($obj->getEstadoTicket()){
-				case "pendiente":
+				case "Pendiente":
 					array_push($tickets_pendientes, $ticket);
 				break;
 
-				case "ejecutandose":
+				case "Ejecutandose":
 					array_push($tickets_ejecutandose, $ticket);
 				break;
 
-				case "probandose":
+				case "Probandose":
 					array_push($tickets_probandose, $ticket);
 				break;
 
-				case "terminado":
+				case "Terminado":
 					array_push($tickets_terminados, $ticket);
 				break;
 			}
@@ -278,41 +285,39 @@ switch ($bandera){
 	break;
 
 	case 8:
-?>
-		<?= $obj->getMaxIdTicket($_POST["id_proyecto"]); ?>
-<?php
+		echo random_bytes(32);
 	break;
 
 	case 9:
-		$obj->EditarProyecto($_POST["id_proyecto"], $_POST["nombre_proyecto"]);
+		$obj->EditarProyecto(openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]), $_POST["nombre_proyecto"]);
 	break;
 
 	case 10:
-		$obj->EliminarTicketsDependientes($_POST["id_proyecto"]);
-		$obj->EliminarProyecto($_POST["id_proyecto"]);
+		$obj->EliminarTicketsDependientes(openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]));
+		$obj->EliminarProyecto(openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]));
 	break;
 
 	case 11:
-		$obj->EditarTicket($_POST["id_ticket"], $_POST["titulo_ticket"], $_POST["descripcion_ticket"], $_POST["sprint_ticket"], $_POST["estado_ticket"], $_POST["puntos_ticket"], $_POST["finicio_ticket"], $_POST["ftermino_ticket"]);
+		$obj->EditarTicket(openssl_decrypt(base64_decode($_POST["id_ticket"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]), $_POST["titulo_ticket"], $_POST["descripcion_ticket"], $_POST["sprint_ticket"], $_POST["estado_ticket"], $_POST["puntos_ticket"], $_POST["finicio_ticket"], $_POST["ftermino_ticket"]);
 	break;
 
 	case 12:
-		$obj->EliminarTicketsDependientes2($_POST["id_ticket"]);
-		$obj->EliminarTicket($_POST["id_ticket"]);
+		$obj->EliminarTicketsDependientes2(openssl_decrypt(base64_decode($_POST["id_ticket"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]));
+		$obj->EliminarTicket(openssl_decrypt(base64_decode($_POST["id_ticket"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]));
 	break;
 
 	case 13:
 		switch($_POST["rango_tiempo"]){
 			case "Día":
-				$obj->ObtenerPromedioDia($_POST["id_proyecto"]);
+				$obj->ObtenerPromedioDia(openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]));
 			break;
 
 			case "Semana":
-				$obj->ObtenerPromedioSemana($_POST["id_proyecto"]);
+				$obj->ObtenerPromedioSemana(openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]));
 			break;
 
 			case "Mes":
-				$obj->ObtenerPromedioMes($_POST["id_proyecto"]);
+				$obj->ObtenerPromedioMes(openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]));
 			break;
 		}	
 
@@ -323,11 +328,33 @@ switch ($bandera){
 	break;
 
 	case 14:
-		if($_POST["id_ticket_dependiente"] != -1){
-			echo 0;
+		if(openssl_decrypt(base64_decode($_POST["id_ticket_dependiente"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]) != -1){
+			$obj->VerificarEstadoTicket(openssl_decrypt(base64_decode($_POST["id_ticket_dependiente"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]));
+			$obj->getSet_ODP();
+			if($obj->getEstadoTicket() == "Terminado"){
+				$obj->CambiarEstadoTicket(openssl_decrypt(base64_decode($_POST["id_ticket"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]), $_POST["estado"]);
+				echo 1;
+			} else{
+				echo 0;
+			}
 		} else{
-			$obj
+			$obj->CambiarEstadoTicket(openssl_decrypt(base64_decode($_POST["id_ticket"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]), $_POST["estado"]);
 			echo 1;
+		}
+	break;
+
+	case 15:
+		$tickets = json_decode($_POST["tickets"]);
+		$llave;
+		foreach($tickets as $ticket){		
+			if($ticket["id_dependiente"] == $llave){
+				$obj->ObtenerMaxIdTicket(openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]));
+				$obj->getSet_ODP();
+				$obj->CrearTicket(openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]), $obj->getMaxIdTicket(), $ticket["titulo"], $ticket["descripcion"], $_POST["max_sprint"], "Pendiente", $ticket["puntos"]);
+			} else{
+				$llave = $ticket["llave"];
+				$obj->CrearTicket(openssl_decrypt(base64_decode($_POST["id_proyecto"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]), -1, $ticket["titulo"], $ticket["descripcion"], $_POST["max_sprint"], "Pendiente", $ticket["puntos"]);
+			}
 		}
 	break;
 }
