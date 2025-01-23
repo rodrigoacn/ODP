@@ -10,7 +10,7 @@
 			}  
 
 			try { 
-				$dbh = new PDO('mysql:host=localhost;dbname=odp', 'root', 'V6h470fdz0@', array(PDO::ATTR_PERSISTENT => true));  
+				$dbh = new PDO('mysql:host=localhost;dbname=odp', 'root', 'v6h470fdz0', array(PDO::ATTR_PERSISTENT => true));  
 				self::$conn = $dbh; 
 				return $dbh; 
 			} catch (PDOException $e) { 

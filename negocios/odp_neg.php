@@ -2,7 +2,7 @@
 ini_set ('error_reporting', E_ALL & ~E_NOTICE);
 ini_set ('display_errors', 1);
 	
-include_once "../datos/odp_sql.php";
+include_once "C:/xampp/htdocs/ODP/datos/odp_sql.php";
 
 class odp_neg { 
 	private $id_proyecto;
@@ -46,25 +46,6 @@ class odp_neg {
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
 		$this->ejecuta->execute();
 		$this->vector_resultado=$this->ejecuta->fetchAll();
-		//return $this->ejecuta->resultado;
-	}
-
-	public function CrearTicket($p_id, $p_id_proyecto, $p_id_ticket, $p_titulo, $p_descripcion, $p_puntos,$p_sprint, $p_estado){
-		//Carga Vector de Parametros de entrada (OBLIGATORIO).
-		//Carga variable query
-		$this->sql->CrearTicket();
-		$consulta=$this->sql->query;
-		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id", $p_id);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
-		$this->ejecuta->bindParam(":v_titulo", strtoupper($p_titulo));
-		$this->ejecuta->bindParam(":v_descripcion", strtoupper($p_descripcion));
-		$this->ejecuta->bindParam(":v_puntos", $p_puntos);
-		$this->ejecuta->bindParam(":v_sprint", $p_sprint);
-		$this->ejecuta->bindParam(":v_estado", strtoupper($p_estado));
-		$this->ejecuta->execute();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -232,17 +213,6 @@ class odp_neg {
 		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
 		$this->ejecuta->bindParam(":v_estado", strtoupper($p_estado));
 		$this->ejecuta->execute();
-		//return $this->ejecuta->resultado;
-	}
-
-	public function ObtenerMaxIdTicket($p_id_proyecto){
-		$this->sql->ObtenerMaxIdTicket();
-		$consulta=$this->sql->query;
-		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->execute();
-		$this->vector_resultado=$this->ejecuta->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
 

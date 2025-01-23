@@ -69,14 +69,6 @@ class odp_sql {
 	public function CambiarEstadoTicket(){
 		$this->query="UPDATE ticket SET estado = :v_estado WHERE id = :v_id_ticket";
 	}
-
-	public function ObtenerMaxIdTicket(){
-		$this->query="SELECT MAX(id) + 1 FROM ticket WHERE id_proyecto = :v_id_proyecto";
-	}
-
-	public function CrearTicket(){
-		$this->query="INSERT INTO ticket (id_proyecto, id_ticket, titulo, descripcion, sprint, estado, puntos) VALUES (:v_id_proyecto, :v_id_dependiente, :v_titulo, :v_descripcion, :v_sprint, :v_estado, :v_puntos)";
-	}
 }
 ?>
 		

@@ -14,6 +14,7 @@ $secret_iv = substr(hash('sha256', $secret_iv), 0, 16);
 //encriptar $output = openssl_encrypt($id, "AES-256-CBC", $secret_key, 0, $secret_iv);
 //encriptar $e_id = base64_encode($output);
 //desencriptar $id = openssl_decrypt(base64_decode($_POST["v1"]), "AES-256-CBC", $_POST["key"], 0, $_POST["iv"]);
+$bandera = $_POST["bandera"];
 
 switch ($bandera){
 	case 1:

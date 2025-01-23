@@ -12,5 +12,7 @@
 	<div id="modales"></div>
 	<div id="contenido"></div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="./presentacion/odp_ajax.js"></script>
+	<script src="./presentacion/js/scripts.js"></script>
 </body>
 </html>

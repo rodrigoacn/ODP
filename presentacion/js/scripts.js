@@ -1,14 +1,16 @@
 (function() {
     obtenerDimensionPantalla = function () {
         return {
-            ancho_pantalla: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
-            alto_pantalla: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+            ancho_pantalla: window.innerWidth,
+            alto_pantalla: window.innerHeight,
         };
     };
 
     actualizarDimensionPantalla = function() {
         var dimensiones = obtenerDimensionPantalla();
         $("body").css("width", dimensiones.ancho_pantalla);
+        console.log(dimensiones.ancho_pantalla);
+        console.log(dimensiones.alto_pantalla);
         $("body").css("height", dimensiones.alto_pantalla);
         if($("#grafico").lenght){
             var ctx = $("#grafico")[0].getContext("2d");
@@ -20,7 +22,7 @@
     $(window).on('resize', function() {
         actualizarDimensionPantalla();
     });
-
+    actualizarDimensionPantalla();
     ObtenerModales();
     ObtenerProyectos();
 }());
