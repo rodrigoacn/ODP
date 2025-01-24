@@ -1,9 +1,14 @@
 <?php
 class odp_sql { 
+	private $query;
 	public function __construct(){}
 
+	public function getQuery(){
+		return $this->query;
+	}
+
 	public function ObtenerProyectos(){
-		$this->query="SELECT p.id AS id_proyecto, p.nombre AS nombre_proyecto, MAX(t.sprint) AS max_sprint_ticket FROM proyecto p, ticket t WHERE p.id = t.id_proyecto ORDER BY nombre_proyecto";
+		$this->query="SELECT p.id AS id_proyecto, p.nombre AS nombre_proyecto, MAX(t.sprint) AS max_sprint_ticket FROM proyecto AS p, ticket AS t WHERE p.id = t.id_proyecto ORDER BY nombre_proyecto";
 	}
 
 	public function ObtenerTickets(){

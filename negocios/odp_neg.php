@@ -1,10 +1,14 @@
 <?php
 ini_set ('error_reporting', E_ALL & ~E_NOTICE);
 ini_set ('display_errors', 1);
-	
-include_once "C:/xampp/htdocs/ODP/datos/odp_sql.php";
+
+include_once ("../../datos/conexion.php");
+include_once ("../../datos/odp_sql.php");
 
 class odp_neg { 
+	private $sql;
+	private $ejecuta;
+	private $query;
 	private $id_proyecto;
 	private $nombre_proyecto;
 	private $max_sprint_ticket;
@@ -19,7 +23,7 @@ class odp_neg {
 	private $promedio_puntos;
 	private $estado_ticket;
 	
-	public function odp_neg($p_usercon){ 
+	public function __construct($p_usercon){ 
 		$this->sql = new odp_sql();
 		$this->ejecuta = $p_usercon;
 	}
@@ -28,10 +32,10 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->ObtenerProyectos();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
-		$this->ejecuta->execute();
+		$this->query = $this->ejecuta->prepare($consulta);
+		$this->query->execute();
 		$this->vector_resultado=$this->ejecuta->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
@@ -40,11 +44,11 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->ObtenerTickets();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		$this->vector_resultado=$this->ejecuta->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
@@ -53,11 +57,11 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->VerSprint();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		$this->vector_resultado=$this->ejecuta->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
@@ -66,11 +70,11 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->ObtenerMaxIdTicket();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		$this->vector_resultado=$this->ejecuta->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
@@ -79,12 +83,12 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->EditarProyecto();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
 		$this->ejecuta->bindParam(":v_nombre_proyecto", strtoupper($p_nombre_proyecto));
-		$this->ejecuta->execute();
+		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -92,11 +96,11 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->EliminarTicketsDependientes();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -104,11 +108,11 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->EliminarProyecto();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -116,9 +120,9 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->EditarTicket();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
 		$this->ejecuta->bindParam(":v_titulo_ticket", strtoupper($p_titulo_ticket));
 		$this->ejecuta->bindParam(":v_descripcion_ticket", strtoupper($p_descripcion_ticket));
@@ -127,7 +131,7 @@ class odp_neg {
 		$this->ejecuta->bindParam(":v_puntos_ticket", $p_puntos_ticket);
 		$this->ejecuta->bindParam(":v_finicio_ticket", $p_finicio_ticket);
 		$this->ejecuta->bindParam(":v_ftermino_ticket", $p_ftermino_ticket);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -135,11 +139,11 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->EliminarTicketsDependientes2();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -147,11 +151,11 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->EliminarTicket();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -159,11 +163,11 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->ObtenerPromedioDia();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		$this->vector_resultado=$this->ejecuta->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
@@ -172,11 +176,11 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->ObtenerPromedioSemana();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		$this->vector_resultado=$this->ejecuta->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
@@ -185,42 +189,42 @@ class odp_neg {
 		//Carga Vector de Parametros de entrada (OBLIGATORIO).
 		//Carga variable query
 		$this->sql->ObtenerPromedioMes();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		$this->vector_resultado=$this->ejecuta->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
 
 	public function VerificarEstadoTicket($p_id_ticket){
 		$this->sql->VerificarParaleloAlumno();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_ticket", strtoupper($p_id_ticket));
-		$this->ejecuta->execute();
+		$this->query->execute();
 		$this->vector_resultado=$this->ejecuta->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
 
 	public function CambiarEstadoTicket($p_id_ticket, $p_estado){
 		$this->sql->CambiarEstadoTicket();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
 		$this->ejecuta->bindParam(":v_estado", strtoupper($p_estado));
-		$this->ejecuta->execute();
+		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
 
 	public function CrearTicket($p_id_proyecto, $p_id_dependiente, $p_titulo, $p_descripcion, $p_sprint, $p_estado, $p_puntos){
 		$this->sql->CrearTicket();
-		$consulta=$this->sql->query;
+		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
-		$this->ejecuta->prepare($consulta);
+		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
 		$this->ejecuta->bindParam(":v_id_dependiente", strtoupper($p_id_dependiente));
 		$this->ejecuta->bindParam(":v_titulo", strtoupper($p_titulo));
@@ -228,7 +232,7 @@ class odp_neg {
 		$this->ejecuta->bindParam(":v_sprint", $p_sprint);
 		$this->ejecuta->bindParam(":v_estado", strtoupper($p_estado));
 		$this->ejecuta->bindParam(":v_puntos", $p_puntos);
-		$this->ejecuta->execute();
+		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
 

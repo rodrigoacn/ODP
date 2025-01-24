@@ -3,6 +3,7 @@ ini_set("error_reporting", E_ALL & ~E_NOTICE);
 ini_set("display_errors", 1);
 include_once ("../../datos/conexion.php");
 include_once ("../../negocios/odp_neg.php");
+include_once ("../../datos/odp_sql.php");
 
 $USERCON = DB::connect();
 $obj = new odp_neg($USERCON);
