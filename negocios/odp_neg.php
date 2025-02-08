@@ -36,7 +36,7 @@ class odp_neg {
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
 		$this->query->execute();
-		$this->vector_resultado=$this->ejecuta->fetchAll();
+		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -49,7 +49,7 @@ class odp_neg {
 		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
 		$this->query->execute();
-		$this->vector_resultado=$this->ejecuta->fetchAll();
+		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -62,7 +62,7 @@ class odp_neg {
 		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
 		$this->query->execute();
-		$this->vector_resultado=$this->ejecuta->fetchAll();
+		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -75,7 +75,7 @@ class odp_neg {
 		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
 		$this->query->execute();
-		$this->vector_resultado=$this->ejecuta->fetchAll();
+		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -168,7 +168,7 @@ class odp_neg {
 		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
 		$this->query->execute();
-		$this->vector_resultado=$this->ejecuta->fetchAll();
+		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -181,7 +181,7 @@ class odp_neg {
 		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
 		$this->query->execute();
-		$this->vector_resultado=$this->ejecuta->fetchAll();
+		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -194,7 +194,7 @@ class odp_neg {
 		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
 		$this->query->execute();
-		$this->vector_resultado=$this->ejecuta->fetchAll();
+		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -205,7 +205,7 @@ class odp_neg {
 		$this->query = $this->ejecuta->prepare($consulta);
 		$this->ejecuta->bindParam(":v_id_ticket", strtoupper($p_id_ticket));
 		$this->query->execute();
-		$this->vector_resultado=$this->ejecuta->fetchAll();
+		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
 	}
 
@@ -238,19 +238,19 @@ class odp_neg {
 
 	public function getSet_ODP($filas=0){
 		if($this->getFilas()>0){
-			$this->id_proyecto = $this->vector_resultado[$filas]["id_proyecto"];
-			$this->nombre_proyecto = $this->vector_resultado[$filas]["nombre_proyecto"];
-			$this->max_sprint_ticket = $this->vector_resultado[$filas]["max_sprint_ticket"];
-			$this->id_ticket = $this->vector_resultado[$filas]["id_ticket"];
-			$this->ticket_dependiente = $this->vector_resultado[$filas]["ticket_dependiente"];
-			$this->titulo_ticket = $this->vector_resultado[$filas]["titulo_ticket"];
-			$this->descripcion_ticket = $this->vector_resultado[$filas]["descripcion_ticket"];
-			$this->vector_resultado[$filas]["puntos_ticket"];
-			$this->fecha_inicio_ticket = $this->vector_resultado[$filas]["fecha_inicio_ticket"];
-			$this->fecha_termino_ticket = $this->vector_resultado[$filas]["fecha_termino_ticket"];
-			$this->max_id_ticket = $this->vector_resultado[$filas]["max_id_ticket"];
-			$this->promedio_puntos = $this->vector_resultado[$filas]["promedio_puntos"];
-			$this->estado_ticket = $this->vector_resultado[$filas]["estado_ticket"];
+			$this->id_proyecto = (isset($this->vector_resultado[$filas]["id_proyecto"])) ? $this->vector_resultado[$filas]["id_proyecto"] : "";
+			$this->nombre_proyecto = (isset($this->vector_resultado[$filas]["nombre_proyecto"])) ? $this->vector_resultado[$filas]["nombre_proyecto"] : "";
+			$this->max_sprint_ticket = (isset($this->vector_resultado[$filas]["max_sprint_ticket"])) ? $this->vector_resultado[$filas]["max_sprint_ticket"] : "";
+			$this->id_ticket = (isset($this->vector_resultado[$filas]["id_ticket"])) ? $this->vector_resultado[$filas]["id_ticket"] : "";
+			$this->ticket_dependiente = (isset($this->vector_resultado[$filas]["ticket_dependiente"])) ? $this->vector_resultado[$filas]["ticket_dependiente"] : "";
+			$this->titulo_ticket = (isset($this->vector_resultado[$filas]["titulo_ticket"])) ? $this->vector_resultado[$filas]["titulo_ticket"] : "";
+			$this->descripcion_ticket = (isset($this->vector_resultado[$filas]["descripcion_ticket"])) ? $this->vector_resultado[$filas]["descripcion_ticket"] : "";
+			$this->puntos_ticket = (isset($this->vector_resultado[$filas]["puntos_ticket"])) ? $this->vector_resultado[$filas]["puntos_ticket"] : "";
+			$this->fecha_inicio_ticket = (isset($this->vector_resultado[$filas]["fecha_inicio_ticket"])) ? $this->vector_resultado[$filas]["fecha_inicio_ticket"] : "";
+			$this->fecha_termino_ticket = (isset($this->vector_resultado[$filas]["fecha_termino_ticket"])) ? $this->vector_resultado[$filas]["fecha_termino_ticket"] : "";
+			$this->max_id_ticket = (isset($this->vector_resultado[$filas]["max_id_ticket"])) ? $this->vector_resultado[$filas]["max_id_ticket"] : "";
+			$this->promedio_puntos = (isset($this->vector_resultado[$filas]["promedio_puntos"])) ? $this->vector_resultado[$filas]["promedio_puntos"] : "";
+			$this->estado_ticket = (isset($this->vector_resultado[$filas]["estado_ticket"])) ? $this->vector_resultado[$filas]["estado_ticket"] : "";
 		}
 	}
 
