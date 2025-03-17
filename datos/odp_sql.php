@@ -24,7 +24,7 @@ class odp_sql {
 	}
 
 	public function VerSprint(){
-		$this->query="SELECT MAX(t1.sprint), t1.id AS id_ticket, CASE t1.id_ticket = -1 THEN 'Independiente' ELSE t2.titulo END AS ticket_dependiente, t1.titulo AS titulo_ticket, t1.descripcion AS descripcion_ticket, t1.puntos AS puntos_ticket, t1.fecha_inicio AS fecha_inicio_ticket, t1.fecha_termino AS fecha_termino_ticket FROM ticket t1, ticket t2 WHERE t1.id_proyecto = :v_id_proyecto AND t1.id = t2.id_ticket";
+		$this->query="SELECT t1.id AS id_ticket, t1.estado AS estado_ticket, CASE WHEN t1.id_ticket = -1 THEN 'Independiente' ELSE t2.titulo END AS ticket_dependiente, t1.titulo AS titulo_ticket, t1.descripcion AS descripcion_ticket, t1.puntos AS puntos_ticket, t1.fecha_inicio AS fecha_inicio_ticket, t1.fecha_termino AS fecha_termino_ticket FROM ticket t1, ticket t2 WHERE t1.sprint = (SELECT MAX(sprint) FROM ticket WHERE id_proyecto = t1.id_proyecto) AND t1.id_proyecto = :v_id_proyecto AND t1.id = t2.id_ticket";
 	}
 
 	public function ObtenerMaxIdTicket(){

@@ -47,7 +47,7 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
+		$this->query->bindParam(":v_id_proyecto", intval($p_id_proyecto));
 		$this->query->execute();
 		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
@@ -60,7 +60,8 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
+		$e_id_proyecto = intval($p_id_proyecto);
+		$this->query->bindParam(":v_id_proyecto", $e_id_proyecto);
 		$this->query->execute();
 		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
@@ -73,7 +74,7 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
+		$this->query->bindParam(":v_id_proyecto", intval($p_id_proyecto));
 		$this->query->execute();
 		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
@@ -86,8 +87,8 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->bindParam(":v_nombre_proyecto", strtoupper($p_nombre_proyecto));
+		$this->query->bindParam(":v_id_proyecto", intval($p_id_proyecto));
+		$this->query->bindParam(":v_nombre_proyecto", $p_nombre_proyecto);
 		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
@@ -99,7 +100,7 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
+		$this->query->bindParam(":v_id_proyecto", intval($p_id_proyecto));
 		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
@@ -111,7 +112,7 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
+		$this->query->bindParam(":v_id_proyecto", intval($p_id_proyecto));
 		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
@@ -123,14 +124,14 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
-		$this->ejecuta->bindParam(":v_titulo_ticket", strtoupper($p_titulo_ticket));
-		$this->ejecuta->bindParam(":v_descripcion_ticket", strtoupper($p_descripcion_ticket));
-		$this->ejecuta->bindParam(":v_sprint_ticket", $p_sprint_ticket);
-		$this->ejecuta->bindParam(":v_estado_ticket", strtoupper($p_estado_ticket));
-		$this->ejecuta->bindParam(":v_puntos_ticket", $p_puntos_ticket);
-		$this->ejecuta->bindParam(":v_finicio_ticket", $p_finicio_ticket);
-		$this->ejecuta->bindParam(":v_ftermino_ticket", $p_ftermino_ticket);
+		$this->query->bindParam(":v_id_ticket", intval($p_id_ticket));
+		$this->query->bindParam(":v_titulo_ticket", $p_titulo_ticket);
+		$this->query->bindParam(":v_descripcion_ticket", $p_descripcion_ticket);
+		$this->query->bindParam(":v_sprint_ticket", intval($p_sprint_ticket));
+		$this->query->bindParam(":v_estado_ticket", $p_estado_ticket);
+		$this->query->bindParam(":v_puntos_ticket", intval($p_puntos_ticket));
+		$this->query->bindParam(":v_finicio_ticket", $p_finicio_ticket);
+		$this->query->bindParam(":v_ftermino_ticket", $p_ftermino_ticket);
 		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
@@ -142,7 +143,7 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
+		$this->query->bindParam(":v_id_ticket", intval($p_id_ticket));
 		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
@@ -154,7 +155,7 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
+		$this->query->bindParam(":v_id_ticket", intval($p_id_ticket));
 		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
@@ -166,7 +167,7 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
+		$this->query->bindParam(":v_id_proyecto", intval($p_id_proyecto));
 		$this->query->execute();
 		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
@@ -179,7 +180,7 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
+		$this->query->bindParam(":v_id_proyecto", intval($p_id_proyecto));
 		$this->query->execute();
 		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
@@ -192,7 +193,7 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
+		$this->query->bindParam(":v_id_proyecto", intval($p_id_proyecto));
 		$this->query->execute();
 		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
@@ -203,7 +204,7 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_ticket", strtoupper($p_id_ticket));
+		$this->query->bindParam(":v_id_ticket", intval($p_id_ticket));
 		$this->query->execute();
 		$this->vector_resultado=$this->query->fetchAll();
 		//return $this->ejecuta->resultado;
@@ -214,8 +215,8 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_ticket", $p_id_ticket);
-		$this->ejecuta->bindParam(":v_estado", strtoupper($p_estado));
+		$this->query->bindParam(":v_id_ticket", intval($p_id_ticket));
+		$this->query->bindParam(":v_estado", $p_estado);
 		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}
@@ -225,13 +226,13 @@ class odp_neg {
 		$consulta=$this->sql->getQuery();
 		//Envia parametros a ejecutar
 		$this->query = $this->ejecuta->prepare($consulta);
-		$this->ejecuta->bindParam(":v_id_proyecto", $p_id_proyecto);
-		$this->ejecuta->bindParam(":v_id_dependiente", strtoupper($p_id_dependiente));
-		$this->ejecuta->bindParam(":v_titulo", strtoupper($p_titulo));
-		$this->ejecuta->bindParam(":v_descripcion", strtoupper($p_descripcion));
-		$this->ejecuta->bindParam(":v_sprint", $p_sprint);
-		$this->ejecuta->bindParam(":v_estado", strtoupper($p_estado));
-		$this->ejecuta->bindParam(":v_puntos", $p_puntos);
+		$this->query->bindParam(":v_id_proyecto", intval($p_id_proyecto));
+		$this->query->bindParam(":v_id_dependiente", intval($p_id_dependiente));
+		$this->query->bindParam(":v_titulo", $p_titulo);
+		$this->query->bindParam(":v_descripcion", $p_descripcion);
+		$this->query->bindParam(":v_sprint", intval($p_sprint));
+		$this->query->bindParam(":v_estado", $p_estado);
+		$this->query->bindParam(":v_puntos", intval($p_puntos));
 		$this->query->execute();
 		//return $this->ejecuta->resultado;
 	}

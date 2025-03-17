@@ -1,4 +1,4 @@
-function ObtenerModales(){
+ObtenerModales = function(){
     $.ajax({
         type: "POST",
         url : "/ODP/presentacion/aj/odp_aj.php",
@@ -16,7 +16,7 @@ function ObtenerModales(){
     });
 }
 
-function IrCrearTickets(id_proyecto, max_sprint){
+IrCrearTickets = function(id_proyecto, max_sprint){
     $.ajax({
         type: "POST",
         url : "/ODP/presentacion/aj/odp_aj.php",
@@ -32,12 +32,13 @@ function IrCrearTickets(id_proyecto, max_sprint){
         },
         success: function(resultado){
             ObtenerModales();
-            $("#modales").append(resultado);
+            $("#modales").html(resultado);
+            $("#modales").css("visibility", "visible");
         }
     });
 }
 
-function ObtenerProyectos(){
+ObtenerProyectos = function(){
     $.ajax({
         type: "POST",
         url : "/ODP/presentacion/aj/odp_aj.php",
@@ -55,7 +56,7 @@ function ObtenerProyectos(){
     });
 }
 
-function ObtenerTickets(id_proyecto, nombre_proyecto){
+ObtenerTickets = function(id_proyecto, nombre_proyecto){
     $.ajax({
         type: "POST",
         url : "/ODP/presentacion/aj/odp_aj.php",
@@ -75,7 +76,7 @@ function ObtenerTickets(id_proyecto, nombre_proyecto){
     });
 }
 
-function CrearProyecto(nombre_proyecto){
+CrearProyecto = function(nombre_proyecto){
     $.ajax({
         type: "POST",
         url : "/ODP/presentacion/aj/odp_aj.php",
@@ -90,12 +91,12 @@ function CrearProyecto(nombre_proyecto){
         },
         success: function(resultado){
             $("#titulo-alerta").html("Proyecto creado correctamente");
-            $("#modal-alerta").show();
+            $("#modal-alerta").css("visibility", "visible");
         }
     });
 }
 
-function VerSprint(id_proyecto){
+VerSprint = function(id_proyecto){
     $.ajax({
         type: "POST",
         url : "/ODP/presentacion/aj/odp_aj.php",
@@ -114,7 +115,7 @@ function VerSprint(id_proyecto){
     });
 }
 
-function GuardarProyecto(id_proyecto, nombre_proyecto){
+GuardarProyecto = function(id_proyecto, nombre_proyecto){
     $.ajax({
         type: "POST",
         url : "/ODP/presentacion/aj/odp_aj.php",
@@ -130,12 +131,12 @@ function GuardarProyecto(id_proyecto, nombre_proyecto){
         },
         success: function(resultado){
             $("#titulo-alerta").html("Proyecto editado correctamente");
-            $("#modal-alerta").show();
+            $("#modal-alerta").css("visibility", "visible");
         }
     });
 }
 
-function EliminarProyecto(id_proyecto){
+EliminarProyecto = function(id_proyecto){
     $.ajax({
         type: "POST",
         url : "/ODP/presentacion/aj/odp_aj.php",
@@ -150,12 +151,12 @@ function EliminarProyecto(id_proyecto){
         },
         success: function(resultado){
             $("#titulo-alerta").html("Proyecto eliminado correctamente");
-            $("#modal-alerta").show();
+            $("#modal-alerta").css("visibility", "visible");
         }
     });
 }
 
-function EditarTicket(id_ticket, titulo_ticket, descripcion_ticket, sprint_ticket, estado_ticket, puntos_ticket, finicio_ticket, ftermino_ticket){
+EditarTicket = function(id_ticket, titulo_ticket, descripcion_ticket, sprint_ticket, estado_ticket, puntos_ticket, finicio_ticket, ftermino_ticket){
     $.ajax({
         type: "POST",
         url : "/ODP/presentacion/aj/odp_aj.php",
@@ -177,12 +178,12 @@ function EditarTicket(id_ticket, titulo_ticket, descripcion_ticket, sprint_ticke
         },
         success: function(resultado){
             $("#titulo-alerta").html("Ticket editado correctamente");
-            $("#modal-alerta").show();
+            $("#modal-alerta").css("visibility", "visible");
         }
     });
 }
 
-function EliminarTicket(id_ticket){
+EliminarTicket = function(id_ticket){
     $.ajax({
         type: "POST",
         url : "/ODP/presentacion/aj/odp_aj.php",
@@ -197,12 +198,12 @@ function EliminarTicket(id_ticket){
         },
         success: function(resultado){
             $("#titulo-alerta").html("Ticket eliminado correctamente");
-            $("#modal-alerta").show();
+            $("#modal-alerta").css("visibility", "visible");
         }
     });
 }
 
-function ObtenerPromedios(id_proyecto, rango_tiempo){
+ObtenerPromedios = function(id_proyecto, rango_tiempo){
     $.ajax({
         type: "POST",
         url : "/ODP/presentacion/aj/odp_aj.php",
@@ -227,7 +228,7 @@ function ObtenerPromedios(id_proyecto, rango_tiempo){
     });
 }
 
-function CambiarEstado(id_ticket, id_ticket_dependiente, estado){
+CambiarEstado = function(id_ticket, id_ticket_dependiente, estado){
     $.ajax({
         type: "POST",
         url: "/ODP/presentacion/aj/odp_aj.php",
@@ -245,13 +246,13 @@ function CambiarEstado(id_ticket, id_ticket_dependiente, estado){
         success: function(resultado){
             if(parseInt(resultado) === 0){
                 $("#titulo-alerta").html("Este ticket depende de otro para cambiar de estado");
-                $("#modal-alerta").show();
+                $("#modal-alerta").css("visibility", "visible");
             }
         }
     });
 }
 
-function ObtenerLlave(){
+ObtenerLlave = function(){
     $.ajax({
         type: "POST",
         url: "/ODP/presentacion/aj/odp_aj.php",
@@ -269,7 +270,7 @@ function ObtenerLlave(){
     });
 }
 
-function CrearTickets(id_proyecto, tickets){
+CrearTickets = function(id_proyecto, tickets){
     $.ajax({
         type: "POST",
         url: "/ODP/presentacion/aj/odp_aj.php",
@@ -286,7 +287,7 @@ function CrearTickets(id_proyecto, tickets){
         success: function(resultado){
             if(parseInt(resultado) === 0){
                 $("#titulo-alerta").html("Tickets guardados");
-                $("#modal-alerta").show();
+                $("#modal-alerta").css("visibility", "visible");
             }
         }
     });

@@ -1,56 +1,52 @@
-(function() {
-    obtenerDimensionPantalla = function () {
-        return {
-            ancho_pantalla: window.innerWidth,
-            alto_pantalla: window.innerHeight,
-        };
+obtenerDimensionPantalla = function () {
+    return {
+        ancho_pantalla: window.innerWidth,
+        alto_pantalla: window.innerHeight,
     };
+};
 
-    actualizarDimensionPantalla = function() {
-        var dimensiones = obtenerDimensionPantalla();
-        $("body").css("width", dimensiones.ancho_pantalla);
-        console.log(dimensiones.ancho_pantalla);
-        console.log(dimensiones.alto_pantalla);
-        $("body").css("height", dimensiones.alto_pantalla);
-        if($("#grafico").lenght){
-            var ctx = $("#grafico")[0].getContext("2d");
-            ctx.canvas.width = dimensiones.ancho_pantalla;
-            ctx.canvas.height = dimensiones.alto_pantalla;
-        }
-    };
-
-    $(window).on('resize', function() {
-        actualizarDimensionPantalla();
-    });
-    actualizarDimensionPantalla();
-    ObtenerModales();
-    ObtenerProyectos();
-}());
-
-$(".cancelar").click(function(){
-    $(".ventana-modal").hide();
-    if($("#overlay").hasClass("active")){
-        $("#overlay").removeClass("active");
+actualizarDimensionPantalla = function() {
+    var dimensiones = obtenerDimensionPantalla();
+    $("body").css("width", dimensiones.ancho_pantalla);
+    console.log(dimensiones.ancho_pantalla);
+    console.log(dimensiones.alto_pantalla);
+    $("body").css("height", dimensiones.alto_pantalla);
+    if($("#grafico").lenght){
+        var ctx = $("#grafico")[0].getContext("2d");
+        ctx.canvas.width = dimensiones.ancho_pantalla;
+        ctx.canvas.height = dimensiones.alto_pantalla;
     }
-});
+};
 
-$("#btn-crear-proyecto").click(function(){
+$(window).on('resize', function() {
+    actualizarDimensionPantalla();
+});
+actualizarDimensionPantalla();
+ObtenerModales();
+ObtenerProyectos();
+cancelar = function() {
+        $(".ventana-modal").hide();
+        if($("#overlay").hasClass("active")){
+            $("#overlay").removeClass("active");
+        }
+}
+
+crearproyectos = function () {
     CrearProyecto($("#nombre_proyecto").val());
-});
+}
 
-$(".crear-tickets").click(function(){
-    IrCrearTickets($(this).data("id"), $(this).val());
-});
+iracreartickets = function (element) {
+    alert("hola");
+    IrCrearTickets($(element).data("id"), $(element).val());
+}
 
-$(".ver-tickets").click(function(){
-    ObtenerTickets($(this).data("id"), $(this).data("nombre"));
-});
+vertickets = function (element) {
+    var ver_ticket = $(element).attr("class");
+    alert("hola");
+    ObtenerTickets($(element).data("id"), $(element).data("nombre"));
+}
 
-$("#btn-crear-proyecto").click(function(){
-    CrearProyecto($("#nombre_proyecto").val());
-});
-
-$("#btn-crear-tickets").click(function(){
+creartickets = function () {
     var tickets = {};
     $(".ticket").each(function(){
         tickets["llave"] = $(this).find(".hdn-llave").val();
@@ -60,25 +56,57 @@ $("#btn-crear-tickets").click(function(){
         tickets["puntos"] = $(this).find(".puntos_ticket");
     });
     CrearTickets($("#tks-id-proyecto").val(), tickets);
-});
+}
 
-$(".ver-sprint").click(function(){
-    VerSprint($(this).data("id"));
-});
+versprint = function (element) {
+    VerSprint($(element).data("id"));
+}
 
-$(".guardar-proyecto").click(function(){
-    GuardarProyecto($(this).data("id"), $(".txt-nombre-proyecto")[$(this).index()].val());
-});
+guardarproyecto = function (element) {
+    GuardarProyecto($(element).data("id"), $(".txt-nombre-proyecto")[$(element).index()].val());
+}
 
-$(".eliminar-proyecto").click(function(){
-    EliminarProyecto($(this).data("id"));
-});
+eliminarproyecto = function (element) {
+    EliminarProyecto($(element).data("id"));
+}
 
-$(".guardar-ticket").click(function(){
-    EditarTicket($(this).data("id"), $(".txt-nombre-ticket")[$(this).index()].val(), $(".hdn-descripcion-ticket")[$(this).index()].val(), $(".nbr-sprint-editar")[$(this).index()].val(), $("slc-estado-editar option:selected")[$(this).index()].text(), $(".nbr-puntos-editar")[$(this).index()].val(), $(".dte-finicio-editar")[$(this).index()].val(), $(".dte-ftermino-editar")[$(this).index()].val());
-});
+guardarticket = function (element) {
+    EditarTicket($(element).data("id"), $(".txt-nombre-ticket")[$(element).index()].val(), $(".hdn-descripcion-ticket")[$(element).index()].val(), $(".nbr-sprint-editar")[$(element).index()].val(), $("slc-estado-editar option:selected")[$(element).index()].text(), $(".nbr-puntos-editar")[$(element).index()].val(), $(".dte-finicio-editar")[$(element).index()].val(), $(".dte-ftermino-editar")[$(element).index()].val());
+}
 
-function CrearGrafico(puntos, rango_tiempo){
+agregarticketdependiente = function (element) {
+    var llave = ObtenerLlave();
+    $("#tickets").append(""
+    +"<div class='ticket'>"
+    +"  <input class='modal hdn-llave' type='hidden' value='"+llave+"'>"
+    +"  <input class='modal hdn-ticket-dependiente' type='hidden' value='"+$(element).parent().prev(".independiente").find(".hdn-llave").first().val()+"'>"
+    +"	<input class='modal nombre_ticket' type='text' placeholder='Nombre del ticket'>"
+    +"  <textarea class='modal descripcion_ticket' placeholder='Descripción del Ticket'></textarea>"
+    +"  <input type='number' class='modal puntos_ticket' value='1'>"
+    +"  <input type='button' class='modal btn-ticket-dependiente' value='Ticket Dependiente'>"
+    +"</div>"
+    );  
+}
+
+agregarnuevoticket = function () {
+    var llave = ObtenerLlave();
+    $("#tickets").append(""
+    +"<div class='ticket independiente'>"
+    +"  <input class='modal hdn-llave' type='hidden' value='"+llave+"'>"
+    +"  <input class='modal hdn-ticket-dependiente' type='hidden' value='-1'>"
+    +"  <input class='modal nombre_ticket' type='text' placeholder='Nombre del ticket'>"
+    +"  <textarea class='modal descripcion_ticket' placeholder='Descripción del Ticket'></textarea>"
+    +"  <input type='number' class='modal puntos_ticket' value='1'>"
+    +"  <input type='button' class='modal btn-ticket-dependiente' value='Ticket Dependiente'>"
+    +"</div>"
+    );
+}
+
+verdescripcionticket = function (element) {
+    $(element).prev().show();
+}
+
+CrearGrafico = function(puntos, rango_tiempo){
     new Chart($("#grafico"), {
         type: "bar",
         data: {
@@ -115,7 +143,7 @@ function CrearGrafico(puntos, rango_tiempo){
 function allowDrop(e) {
     e.preventDefault();
 }
-  
+
 function drag(e) {
     var id = e.target.id;
     var id_ticket = $("#"+id).find("hdn-id-ticket").val();
@@ -124,7 +152,7 @@ function drag(e) {
     e.dataTransfer.setData("id_ticket", id_ticket);
     e.dataTransfer.setData("id_ticket_dependiente", id_ticket_dependiente);
 }
-  
+
 function drop(e, estado) {
     e.preventDefault();
     var id = e.dataTransfer.getData("id").toString();
@@ -189,37 +217,3 @@ if($(".carta").lenght){
         allowDrop(e);
     });
 }
-
-$(".btn-ticket-dependiente").click(function(){
-    var llave = ObtenerLlave();
-    $("#tickets").append(""
-    +"<div class='ticket'>"
-    +"  <input class='modal hdn-llave' type='hidden' value='"+llave+"'>"
-    +"  <input class='modal hdn-ticket-dependiente' type='hidden' value='"+$(this).parent().prev(".independiente").find(".hdn-llave").first().val()+"'>"
-    +"	<input class='modal nombre_ticket' type='text' placeholder='Nombre del ticket'>"
-    +"  <textarea class='modal descripcion_ticket' placeholder='Descripción del Ticket'></textarea>"
-    +"  <input type='number' class='modal puntos_ticket' value='1'>"
-    +"  <input type='button' class='modal btn-ticket-dependiente' value='Ticket Dependiente'>"
-    +"</div>"
-    );  
-});
-
-$("#btn-nuevo-ticket").click(function(){
-    var llave = ObtenerLlave();
-    $("#tickets").append(""
-    +"<div class='ticket independiente'>"
-    +"  <input class='modal hdn-llave' type='hidden' value='"+llave+"'>"
-    +"  <input class='modal hdn-ticket-dependiente' type='hidden' value='-1'>"
-    +"  <input class='modal nombre_ticket' type='text' placeholder='Nombre del ticket'>"
-    +"  <textarea class='modal descripcion_ticket' placeholder='Descripción del Ticket'></textarea>"
-    +"  <input type='number' class='modal puntos_ticket' value='1'>"
-    +"  <input type='button' class='modal btn-ticket-dependiente' value='Ticket Dependiente'>"
-    +"</div>"
-    );
-});
-
-$(".btn-descripcion-ticket").click(function(){
-    $(this).prev().show();
-    
-});
-
